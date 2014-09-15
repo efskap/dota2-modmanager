@@ -39,8 +39,8 @@ namespace Dota2ModManager
 
             }
             modList.Items.AddRange(list.OrderBy(x => x.info.order).ToArray());
-           
 
+           
 
 
         }
@@ -51,6 +51,7 @@ namespace Dota2ModManager
                 modList.SetItemChecked(i, IsModInstalled((Mod)modList.Items[i]));
             }
             actuallyInstalled = modList.CheckedItems.Cast<Mod>().ToList();
+            checkForConflicts();
 
         }
         bool IsModInstalled(Mod m)
@@ -80,6 +81,7 @@ namespace Dota2ModManager
 
             ScanForMods();
             CheckIfModsAreInstalled();
+
         }
         //filename, mods
         List<KeyValuePair <string,List<string>>> findConflicts()
@@ -101,8 +103,11 @@ namespace Dota2ModManager
         void checkForConflicts()
         {
             var conflicts = findConflicts();
+            bool con = (conflicts.Count > 0);
+            conflictsButton.Enabled = con;
 
-            conflictsButton.Visible = (conflicts.Count > 0);
+            conflictsButton.BackColor = (con ? Color.MistyRose : Color.Honeydew);
+            conflictsButton.Text = (con ? "Conflicts detected!" : "No conflicts detected.");
             currentConflicts = conflicts;
         }
         private void modsList_SelectedIndexChanged(object sender, EventArgs e)
@@ -111,7 +116,6 @@ namespace Dota2ModManager
                 richTextBox1.Rtf = "";
             else
                 richTextBox1.Rtf = ((Mod)modList.SelectedItem).AboutBox();
-
 
             checkForConflicts();
 
@@ -124,7 +128,7 @@ namespace Dota2ModManager
             if (e.X > 15 && index > -1)
             {
                 modList.SetItemChecked(index, !modList.GetItemChecked(index));
-                checkForConflicts();
+           
             }
         }
        
@@ -172,7 +176,7 @@ namespace Dota2ModManager
             applyButton.Enabled = true;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void refresh(object sender, EventArgs e)
         {
             richTextBox1.Clear();
             string selected = null;
@@ -195,7 +199,7 @@ namespace Dota2ModManager
                 }
                 modList.SelectedIndex = newindex;
             }
-            checkForConflicts();
+        
             SaveModOrder();
 
         }
@@ -244,6 +248,9 @@ namespace Dota2ModManager
 
         private void modList_ItemCheck(object sender, ItemCheckEventArgs e)
         {
+
+        
+
             /*
             if (actuallyInstalled != null)
                 applyButton.Font = new Font(applyButton.Font, Enumerable.SequenceEqual<Mod>(actuallyInstalled, modList.CheckedItems.Cast<Mod>().ToList()) ? FontStyle.Bold : FontStyle.Regular);
@@ -259,7 +266,7 @@ namespace Dota2ModManager
 
         private void button2_Click_1(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(DotaDir);
+            System.Diagnostics.Process.Start("explorer.exe", DotaDir.Replace('/','\\'));
         }
 
   
@@ -280,6 +287,16 @@ namespace Dota2ModManager
                 output += "-" + x.Key + " { " + string.Join(", ", x.Value.ToArray()) + " }\n";
             }
             MessageBox.Show(output);
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("steam://run/570");
+        }
+
+        private void modList_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            checkForConflicts();
         }
 
 
