@@ -188,6 +188,7 @@
             this.Controls.Add(this.modList);
             this.Controls.Add(this.applyButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Main";
             this.Text = "Dota 2 Mod Manager";
             this.Load += new System.EventHandler(this.Form1_Load);
