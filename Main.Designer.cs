@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.applyButton = new System.Windows.Forms.Button();
             this.modList = new System.Windows.Forms.CheckedListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
@@ -44,7 +45,7 @@
             // applyButton
             // 
             this.applyButton.AutoSize = true;
-            this.applyButton.BackColor = System.Drawing.SystemColors.Control;
+            this.applyButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(207)))), ((int)(((byte)(237)))), ((int)(((byte)(250)))));
             this.applyButton.Font = new System.Drawing.Font("Segoe UI Semibold", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.applyButton.Location = new System.Drawing.Point(189, 308);
             this.applyButton.Name = "applyButton";
@@ -175,6 +176,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
             this.ClientSize = new System.Drawing.Size(571, 384);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);

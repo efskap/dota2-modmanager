@@ -9,4 +9,4 @@ Simply put, create a folder in the mods directory and put the folders that'd go 
 
 The manager will create an info.json that you can edit to set a description and name.
 
-![](http://i.imgur.com/RVOPDM2.png)
+![](http://i.imgur.com/5pDVNbz.png)
