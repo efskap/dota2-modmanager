@@ -31,11 +31,13 @@
             this.applyButton = new System.Windows.Forms.Button();
             this.modList = new System.Windows.Forms.CheckedListBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.dotadirbox = new System.Windows.Forms.TextBox();
             this.refreshButton = new System.Windows.Forms.Button();
             this.upButton = new System.Windows.Forms.Button();
             this.downButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
+            this.conflictsButton = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // applyButton
@@ -75,18 +77,18 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.richTextBox1_LinkClicked);
             // 
-            // label1
+            // dotadirbox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 341);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "%DOTADIR%";
+            this.dotadirbox.Location = new System.Drawing.Point(12, 341);
+            this.dotadirbox.Name = "dotadirbox";
+            this.dotadirbox.Size = new System.Drawing.Size(546, 20);
+            this.dotadirbox.TabIndex = 4;
+            this.dotadirbox.Text = "%DOTADIR%";
+            this.dotadirbox.TextChanged += new System.EventHandler(this.dotadirbox_TextChanged);
             // 
             // refreshButton
             // 
-            this.refreshButton.Location = new System.Drawing.Point(87, 281);
+            this.refreshButton.Location = new System.Drawing.Point(101, 281);
             this.refreshButton.Name = "refreshButton";
             this.refreshButton.Size = new System.Drawing.Size(82, 23);
             this.refreshButton.TabIndex = 5;
@@ -120,7 +122,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(87, 310);
+            this.button1.Location = new System.Drawing.Point(101, 310);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(82, 23);
             this.button1.TabIndex = 9;
@@ -128,16 +130,42 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
+            // conflictsButton
+            // 
+            this.conflictsButton.AutoSize = true;
+            this.conflictsButton.BackColor = System.Drawing.Color.MistyRose;
+            this.conflictsButton.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.conflictsButton.Location = new System.Drawing.Point(398, 279);
+            this.conflictsButton.Name = "conflictsButton";
+            this.conflictsButton.Size = new System.Drawing.Size(160, 36);
+            this.conflictsButton.TabIndex = 10;
+            this.conflictsButton.Text = "Conflicts Detected";
+            this.conflictsButton.UseVisualStyleBackColor = false;
+            this.conflictsButton.Visible = false;
+            this.conflictsButton.Click += new System.EventHandler(this.conflictsButton_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(12, 310);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(83, 23);
+            this.button2.TabIndex = 11;
+            this.button2.Text = "Open Dota Dir";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(605, 363);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.conflictsButton);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.downButton);
             this.Controls.Add(this.upButton);
             this.Controls.Add(this.refreshButton);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.dotadirbox);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.modList);
             this.Controls.Add(this.applyButton);
@@ -155,11 +183,13 @@
         private System.Windows.Forms.Button applyButton;
         private System.Windows.Forms.CheckedListBox modList;
         private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox dotadirbox;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.Button upButton;
         private System.Windows.Forms.Button downButton;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button conflictsButton;
+        private System.Windows.Forms.Button button2;
 
     }
 }

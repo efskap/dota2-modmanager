@@ -16,7 +16,7 @@ namespace Dota2ModManager
     {
         public const string ModDir = "mods/";
         public string DotaDir = "null";
-
+        List<KeyValuePair<string, List<string>>> currentConflicts = new List<KeyValuePair<string, List<string>>>();
         List<Mod> actuallyInstalled;
 
         public Main()
@@ -59,7 +59,7 @@ namespace Dota2ModManager
             {
                 if (!File.Exists(DotaDir + file))
                 {
-                    Console.WriteLine(DotaDir + file + "doesnt exit");
+                    Console.WriteLine(DotaDir + file + " doesnt exist");
                     return false;
                 }
             }
@@ -70,23 +70,51 @@ namespace Dota2ModManager
         {
 
 
+            Config.Load();
 
             string steamPath = (string)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Valve\Steam", "SteamPath", null);
 
-            DotaDir = steamPath + "/steamapps/common/dota 2 beta/dota/";
+            DotaDir = Config.Get("DotaDir", steamPath + "/steamapps/common/dota 2 beta/dota/");
 
-            label1.Text = "Dota 2 in " + DotaDir;
+            dotadirbox.Text = DotaDir;
 
             ScanForMods();
             CheckIfModsAreInstalled();
         }
+        //filename, mods
+        List<KeyValuePair <string,List<string>>> findConflicts()
+        {
+            Dictionary<string, List<string>> allFiles = new Dictionary<string, List<string>>();
+            
+            foreach(Mod mod in modList.CheckedItems)
+            {
+                foreach(string file in mod.affected_files){
+                    if (!allFiles.ContainsKey(file))
+                        allFiles.Add(file, new List<string>());
+                    allFiles[file].Add( mod.ToString());
+                }
+            }
 
+            var conflicts =  allFiles.Where(c => c.Value.Count > 1);
+            return conflicts.ToList();
+        }
+        void checkForConflicts()
+        {
+            var conflicts = findConflicts();
+
+            conflictsButton.Visible = (conflicts.Count > 0);
+            currentConflicts = conflicts;
+        }
         private void modsList_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (modList.SelectedItem == null)
                 richTextBox1.Rtf = "";
             else
                 richTextBox1.Rtf = ((Mod)modList.SelectedItem).AboutBox();
+
+
+            checkForConflicts();
+
         }
 
         private void modsList_MouseClick(object sender, MouseEventArgs e)
@@ -94,12 +122,19 @@ namespace Dota2ModManager
             int index = modList.IndexFromPoint(e.Location);
 
             if (e.X > 15 && index > -1)
+            {
                 modList.SetItemChecked(index, !modList.GetItemChecked(index));
+                checkForConflicts();
+            }
         }
-
+       
         private void button1_Click(object sender, EventArgs e)
         {
             applyButton.Enabled = false;
+            applyButton.Text = "Checking for conflicts...";
+
+
+
             applyButton.Text = "Deleting old files...";
             //first uninstall unselected mods
             foreach (Mod mod in modList.Items)
@@ -160,7 +195,7 @@ namespace Dota2ModManager
                 }
                 modList.SelectedIndex = newindex;
             }
-
+            checkForConflicts();
             SaveModOrder();
 
         }
@@ -220,6 +255,31 @@ namespace Dota2ModManager
         private void button1_Click_1(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(Path.Combine(Environment.CurrentDirectory, ModDir));
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(DotaDir);
+        }
+
+  
+        private void dotadirbox_TextChanged(object sender, EventArgs e)
+        {
+            dotadirbox.Text = dotadirbox.Text.Replace('\\','/');
+            if (!dotadirbox.Text.EndsWith("/"))
+                dotadirbox.Text += "/";
+            DotaDir = dotadirbox.Text;
+            Config.Set("DotaDir", DotaDir);
+        }
+
+        private void conflictsButton_Click(object sender, EventArgs e)
+        {
+            string output = "Conflicts:\n";
+            foreach (var x in currentConflicts)
+            {
+                output += "-" + x.Key + " { " + string.Join(", ", x.Value.ToArray()) + " }\n";
+            }
+            MessageBox.Show(output);
         }
 
 
